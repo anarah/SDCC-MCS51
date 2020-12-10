@@ -1,8 +1,9 @@
 # SDCC-MCS51
 
-Eclipse + SDCC 环境安装教程https://wenku.baidu.com/view/f0e53e62a88271fe910ef12d2af90242a895abab.html
+## Eclipse + SDCC 
+环境安装教程https://wenku.baidu.com/view/f0e53e62a88271fe910ef12d2af90242a895abab.html
 
-Eclipse 配置 工程
+## Eclipse 配置 工程
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Command:  sdcc -mmcs51 -c
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Symbols: 全局define的内容
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Directories：Include paths
@@ -17,9 +18,10 @@ sdcc --model-large "-Wl -r -b BANK1=0x4000" "-Wl -r -b BANK2=0x10000" --xram-loc
 ->properties->C/C++Build->Tool Chain Editor : Current toolchain: SDCC Tool Chain   Current builder: CDT Internal Builder
 
 
-<SDCC Compiler User Guide>  P62 4.1.3 Bankswitching (a.k.a. code banking)
+## <SDCC Compiler User Guide>
+    P62 4.1.3 Bankswitching (a.k.a. code banking)
 	
-4.1.3.1 Hardware
+### 4.1.3.1 Hardware
 
 +++++++++++++++++++++++++++++++++++
 8000-FFFF | bank1 | bank2 | bank3 |
@@ -29,10 +31,9 @@ sdcc --model-large "-Wl -r -b BANK1=0x4000" "-Wl -r -b BANK2=0x10000" --xram-loc
      SiLabs C8051F120 example
      
 Usually the hardware uses some sfr (an output port or an internal sfr) to select a bank and put it in the banked area of the memory map. The selected bank usually becomes active immediately upon assignment to this sfr and when running inside a bank it will switch out this code it is currently running. Therefor you cannot jump or call directly from one bank to another and need to use a so-called trampoline in the common area. For SDCC an example trampoline is in crtbank.asm and you may need to change it to your 8051 derivative or schematic. The presented code is written for the C8051F120.
-When calling a banked function SDCC will put the LSB of the functions address in register R0, the MSB in R1 and the bank in R2 and then call this trampoline __sdcc_banked_call. The current selected bank is saved on the stack, the new bank is selected and an indirect jump is made. When the banked function returns it jumps to
-__sdcc_banked_ret which restores the previous bank and returns to the caller.
+When calling a banked function SDCC will put the LSB of the functions address in register R0, the MSB in R1 and the bank in R2 and then call this trampoline __sdcc_banked_call. The current selected bank is saved on the stack, the new bank is selected and an indirect jump is made. When the banked function returns it jumps to __sdcc_banked_ret which restores the previous bank and returns to the caller.
 
-4.1.3.2 Software
+### 4.1.3.2 Software
 When writing banked software using SDCC you need to use some special keywords and options. You also need to take over a bit of work from the linker.
 To create a function that can be called from another bank it requires the keyword __banked. The caller must see this in the prototype of the callee and the callee needs it for a proper return. Called functions within the same bank as the caller do not need the __banked keyword nor do functions in the common area. Beware: SDCC
 does not know or check if functions are in the same bank. This is your responsibility!
