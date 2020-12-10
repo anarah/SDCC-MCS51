@@ -50,21 +50,30 @@ When linking your objects you need to tell the linker where to put your segments
 ★★需要放bank的.c文件，文件名需要排序在后
 ..\SDCC\lib\src\mcs51文件夹下的crtbank.asm拷贝至工作目录，修改该文件内容，功能类似于keil的L51_BANK.A51
 
+需要跳bank时会自动生成如下汇编，将24bit的物理地址存入R0 R1 R2
+
+	mov	r0,#_add1
+	mov	r1,#(_add1 >> 8)
+	mov	r2,#(_add1 >> 16)
+	lcall	__sdcc_banked_call
+
+crtbank.asm:
+
 	__sdcc_banked_call::
-		push	_PSBANK   ;_PSBANK是存bank号的寄存器，讲
-		xch	a,r0      ;save Acc in r0, do not assume any register bank
-		push	acc       ;push LSB address
+		push	_PSBANK   ;_PSBANK是存bank号的寄存器，跳转前bank值压栈
+		xch	a,r0      ;保存acc的值到R0，R0值取出到acc
+		push	acc       ;物理地址[7:0]压栈
 		mov	a,r1
-		push	acc       ;push MSB address
-		mov	a,r2      ;get new bank
+		push	acc       ;物理地址[15:8]压栈
+		mov	a,r2      ;从R2取出bank值，★★★★★★★★注意有些bank划分需要从R2、R1的值计算bank值，并且将R1的值做修改后压栈★★★★★★
 		anl	a,#0x0F   ;remove storage class indicator
 		anl	_PSBANK,#0xF0
-		orl	_PSBANK,a   ;select bank
-		xch	a,r0		;restore Acc
-		ret			;make the call
+		orl	_PSBANK,a   ;设置bank值
+		xch	a,r0	    ;restore Acc
+		ret	            ;此处ret后，会跳转到R1 R0值指向的虚拟地址
 
 	__sdcc_banked_ret::
-		pop	_PSBANK		;restore bank
+		pop	_PSBANK		;跳回切bank前的bank
 		ret			;return to caller
 
 
