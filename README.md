@@ -23,12 +23,12 @@ sdcc --model-large "-Wl -r -b BANK1=0x4000" "-Wl -r -b BANK2=0x10000" --xram-loc
 	
 ### 4.1.3.1 Hardware
 
-+++++++++++++++++++++++++++++++++++
-8000-FFFF | bank1 | bank2 | bank3 |
-+++++++++++++++++++++++++++++++++++
-0000-7FFF | common 
-+++++++++++++++++++++++++++++++++++
-     SiLabs C8051F120 example
+	+++++++++++++++++++++++++++++++++++
+	8000-FFFF | bank1 | bank2 | bank3 |
+	+++++++++++++++++++++++++++++++++++
+	0000-7FFF | common 
+	+++++++++++++++++++++++++++++++++++
+	     SiLabs C8051F120 example
      
 Usually the hardware uses some sfr (an output port or an internal sfr) to select a bank and put it in the banked area of the memory map. The selected bank usually becomes active immediately upon assignment to this sfr and when running inside a bank it will switch out this code it is currently running. Therefor you cannot jump or call directly from one bank to another and need to use a so-called trampoline in the common area. For SDCC an example trampoline is in crtbank.asm and you may need to change it to your 8051 derivative or schematic. The presented code is written for the C8051F120.
 When calling a banked function SDCC will put the LSB of the functions address in register R0, the MSB in R1 and the bank in R2 and then call this trampoline __sdcc_banked_call. The current selected bank is saved on the stack, the new bank is selected and an indirect jump is made. When the banked function returns it jumps to __sdcc_banked_ret which restores the previous bank and returns to the caller.
