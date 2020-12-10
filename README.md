@@ -52,6 +52,8 @@ When linking your objects you need to tell the linker where to put your segments
 	{
 	       return source + 3;
 	}
-	
+
+
 	xx.h :
-uint16 adda(uint16 source) __banked;
+	
+	uint16 adda(uint16 source) __banked;
