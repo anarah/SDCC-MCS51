@@ -1,4 +1,4 @@
-# SDCC-MCS51
+# SDCC-MCS51 Bankswitching (a.k.a. code banking)
 
 ## Eclipse + SDCC 
 环境安装教程https://wenku.baidu.com/view/f0e53e62a88271fe910ef12d2af90242a895abab.html
