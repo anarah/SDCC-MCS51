@@ -3,7 +3,7 @@
 ## Eclipse + SDCC 
 环境安装教程https://wenku.baidu.com/view/f0e53e62a88271fe910ef12d2af90242a895abab.html
 
-## Eclipse 配置 工程
+## Eclipse 工程配置
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Command:  sdcc -mmcs51 -c
 
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Symbols: 全局define的内容
