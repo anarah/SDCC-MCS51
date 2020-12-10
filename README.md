@@ -51,7 +51,7 @@ When linking your objects you need to tell the linker where to put your segments
 ..\SDCC\lib\src\mcs51文件夹下的crtbank.asm拷贝至工作目录，修改该文件内容，功能类似于keil的L51_BANK.A51
 
 	__sdcc_banked_call::
-		push	_PSBANK   ;save return bank
+		push	_PSBANK   ;_PSBANK是存bank号的寄存器，讲
 		xch	a,r0      ;save Acc in r0, do not assume any register bank
 		push	acc       ;push LSB address
 		mov	a,r1
