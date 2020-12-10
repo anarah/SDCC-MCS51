@@ -5,14 +5,20 @@
 
 ## Eclipse 配置 工程
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Command:  sdcc -mmcs51 -c
+
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Symbols: 全局define的内容
+
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Directories：Include paths
+
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Compiler->Memory Options->Memory Model: Large 或 Huge    区别可查<SDCC Compiler User Guide>
+
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Linker->Command:
 sdcc --model-large "-Wl -r -b BANK1=0x4000" "-Wl -r -b BANK2=0x10000" --xram-loc 0x0000  --xram-size 0xC000如果只用BANK1，需要删除 "-Wl -r -b BANK2=0x10000"
+
 ->properties->C/C++Build->Settings->Tool Settings->SDCC Assembler->Command: sdas8051 -l
 
 ->properties->C/C++Build->Settings->Artifact name: image
+
 ->properties->C/C++Build->Settings->Artifact extension: hex
 
 ->properties->C/C++Build->Tool Chain Editor : Current toolchain: SDCC Tool Chain   Current builder: CDT Internal Builder
