@@ -1,5 +1,7 @@
 # SDCC-MCS51 Bankswitching (a.k.a. code banking)
 
+2020.12.22  T.T|||    SDCC 51 的坑太多了。。。。好多问题都出现在xram
+
 ## Eclipse + SDCC 
 环境安装教程https://wenku.baidu.com/view/f0e53e62a88271fe910ef12d2af90242a895abab.html
 
